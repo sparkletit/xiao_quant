@@ -1,0 +1,11 @@
+.idea
+*.pyc
+.DS_Store
+build
+dist
+data
+venv
+logs
+MANIFEST
+test
+scripts

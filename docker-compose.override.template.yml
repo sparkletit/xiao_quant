@@ -1,0 +1,53 @@
+# 这个是docker-compose.override.yml的覆盖模板，在运行docker前，把这个文件拷贝一份为docker-compose.override.yml, 并对里面的参数进行修改，例如如果你需要使用不同的端口.
+version: "2.1"
+
+# volumes:
+#   geoserver-data:
+#   geo-db-data:
+
+services:
+  postgis:
+    ports:
+      - "5432:5432"
+    restart: "no"
+    env_file:
+      - docker-env/postgres.env
+
+  geoserver:
+    ports:
+      - "8080:8080"
+    env_file:
+      - docker-env/geoserver.env
+
+  pgadmin:
+    ports:
+      - "8002:80"
+    env_file:
+      - docker-env/pgadmin.env
+
+  ###########################
+  # Set up Apache PHP-fpm
+  # http://dockerfile.readthedocs.io/en/latest/content/DockerImages/dockerfiles/php.html
+  ###########################
+  apache:
+    ports:
+      - 80:80
+      - 443:443
+
+  ##########################
+  # Setup the Database (MySQL) container
+  ##########################
+  mysql:
+    ports:
+      - "3306:3306"
+    env_file:
+      - docker-env/mysql.env
+
+  ###########################
+  # Set up PhpMyAdmin
+  ###########################
+  phpmyadmin:
+    env_file:
+      - docker-env/phpmyadmin.env
+    ports:
+      - "8001:80"
